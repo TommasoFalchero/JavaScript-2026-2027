@@ -1,19 +1,125 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>I miei progetti</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I miei file</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #files {
+            max-width: 800px;
+            margin: 25px auto;
+        }
+
+        .file {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #222;
+            box-shadow: 0 2px 5px #0000000d;
+            overflow-wrap: anywhere;
+        }
+
+        .file:hover {
+            background: #e8f0fe;
+        }
+
+        .folder {
+            font-weight: bold;
+        }
+
+        #status {
+            text-align: center;
+            color: #666;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>I miei progetti HTML</h1>
+    <h1>📁 I miei file</h1>
+    <p id="status">Caricamento dei file...</p>
+    <div id="files"></div>
 
-    <ul>
-        <li><a href="Nome e Cognome.html">Progetto 1</a></li>
-        <li><a href="Nome e Cognome 2.html">Progetto 2</a></li>
-        <li><a href="Nome e Cognome 3.html">Progetto 3</a></li>
-        <li><a href="esJavaScriptBinaria.html">Progetto 3</a></li>
-    </ul>
+    <script>
+        // MODIFICA QUESTI 3 VALORI
+        const proprietario = "FalcheroTommaso";
+        const repository = "JavaScript-2026/2027";
+        const branch = "main";
+
+        const contenitore = document.getElementById("files");
+        const stato = document.getElementById("status");
+
+        async function mostraFile(percorso = "") {
+            const api =
+                `https://api.github.com/repos/${proprietario}/${repository}/contents/${percorso}?ref=${branch}`;
+
+            try {
+                const risposta = await fetch(api);
+
+                if (!risposta.ok) {
+                    throw new Error("Impossibile caricare i file.");
+                }
+
+                const elementi = await risposta.json();
+
+                elementi.sort((a, b) => {
+                    if (a.type === b.type) {
+                        return a.name.localeCompare(b.name);
+                    }
+                    return a.type === "dir" ? -1 : 1;
+                });
+
+                for (const elemento of elementi) {
+                    const link = document.createElement("a");
+                    link.className = "file";
+
+                    if (elemento.type === "dir") {
+                        link.classList.add("folder");
+                        link.textContent = "📁 " + elemento.name + "/";
+                        link.href = "#";
+                        link.onclick = (evento) => {
+                            evento.preventDefault();
+                            mostraFile(elemento.path);
+                        };
+                    } else {
+                        link.textContent = "📄 " + elemento.name;
+                        link.href = elemento.html_url;
+                        link.target = "_blank";
+                        link.rel = "noopener noreferrer";
+                    }
+
+                    contenitore.appendChild(link);
+                }
+
+                stato.textContent = "File e cartelle della repository";
+            } catch (errore) {
+                stato.textContent =
+                    "Errore nel caricamento. Controlla username, repository e branch.";
+                console.error(errore);
+            }
+        }
+
+        mostraFile();
+    </script>
 
 </body>
 </html>
