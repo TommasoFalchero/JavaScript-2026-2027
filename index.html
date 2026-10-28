@@ -5,236 +5,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JavaScript 2026-2027</title>
-
 <style>
-    * { box-sizing: border-box; }
-
     body {
         margin: 0;
         font-family: Arial, sans-serif;
         background: #f5f6f8;
-        color: #202124;
+        color: #222;
     }
-
     header {
         background: #202124;
         color: white;
         padding: 28px 20px;
     }
-
     header, main {
-        padding-left: max(20px, calc((100% - 900px) / 2));
-        padding-right: max(20px, calc((100% - 900px) / 2));
+        padding-left: max(20px, calc((100% - 850px) / 2));
+        padding-right: max(20px, calc((100% - 850px) / 2));
     }
-
-    header h1 {
-        margin: 0 0 8px;
-        font-size: 24px;
-    }
-
-    header p {
-        margin: 0;
-        color: #c5c8ce;
-        font-size: 14px;
-    }
-
-    main {
-        max-width: 940px;
-        margin: 30px auto;
-    }
-
-    .toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
-    }
-
-    #percorso {
-        color: #5f6368;
-        font-size: 14px;
-        overflow-wrap: anywhere;
-    }
-
-    button {
-        padding: 9px 13px;
-        border: 1px solid #dadce0;
+    h1 { font-size: 25px; }
+    main { max-width: 890px; margin: 30px auto; }
+    .file {
+        display: block;
         background: white;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-    #elenco {
-        background: white;
-        border: 1px solid #dadce0;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .voce {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        padding: 15px 18px;
-        border-bottom: 1px solid #eee;
+        color: #222;
         text-decoration: none;
-        color: #202124;
-        overflow-wrap: anywhere;
+        padding: 18px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 6px;
     }
-
-    .voce:last-child { border-bottom: 0; }
-
-    a.voce:hover {
+    .file:hover {
+        border-color: #2563eb;
         background: #f0f5ff;
     }
-
-    .icona {
-        width: 24px;
-        flex-shrink: 0;
-    }
-
-    #stato {
-        padding: 20px;
-        color: #5f6368;
-        font-size: 14px;
-    }
-
-    footer {
-        text-align: center;
-        color: #777;
-        font-size: 13px;
-        padding: 20px;
-    }
+    .file strong { display: block; margin-bottom: 6px; }
+    .file span { color: #666; font-size: 14px; }
 </style>
 </head>
-
 <body>
 
 <header>
     <h1>JavaScript 2026-2027</h1>
-    <p>Repository di esercizi e progetti</p>
+    <p>Elenco degli esercizi</p>
 </header>
 
 <main>
-    <div class="toolbar">
-        <div id="percorso">Repository /</div>
-        <button id="indietro" hidden>← Indietro</button>
-    </div>
+    <h2>File disponibili</h2>
 
-    <div id="elenco">
-        <div id="stato">Caricamento...</div>
-    </div>
+    <a class="file" href="./Nome%20e%20Cognome.html">
+        <strong>Nome e Cognome</strong>
+        <span>Apri esercizio HTML</span>
+    </a>
+
+    <a class="file" href="./Nome%20e%20Cognome%202.html">
+        <strong>Nome e Cognome 2</strong>
+        <span>Apri esercizio HTML</span>
+    </a>
+
+    <a class="file" href="./Nome%20e%20Cognome%203.html">
+        <strong>Nome e Cognome 3</strong>
+        <span>Apri esercizio HTML</span>
+    </a>
+
+    <a class="file" href="./esJavaScriptBinaria.html">
+        <strong>JavaScript Binaria</strong>
+        <span>Apri esercizio</span>
+    </a>
 </main>
-
-<footer>TommasoFalchero · GitHub Pages</footer>
-
-<script>
-const UTENTE = "TommasoFalchero";
-const REPO = "JavaScript 2026-2027";
-const BRANCH = "main";
-const BASE = "/JavaScript-2026-2027/";
-
-const elenco = document.getElementById("elenco");
-const stato = document.getElementById("stato");
-const percorsoLabel = document.getElementById("percorso");
-const indietro = document.getElementById("indietro");
-
-let cartella = "";
-
-async function carica(percorso = "") {
-    cartella = percorso;
-    elenco.replaceChildren();
-
-    stato.textContent = "Caricamento...";
-    elenco.appendChild(stato);
-
-    percorsoLabel.textContent =
-        "Repository /" + (percorso ? percorso + "/" : "");
-
-    indietro.hidden = !percorso;
-    indietro.onclick = () => {
-        const parti = cartella.split("/");
-        parti.pop();
-        carica(parti.join("/"));
-    };
-
-    try {
-        const api = `https://api.github.com/repos/${UTENTE}/${REPO}/contents/${percorso}?ref=${BRANCH}`;
-        const risposta = await fetch(api);
-
-        if (!risposta.ok) {
-            throw new Error(`HTTP ${risposta.status}`);
-        }
-
-        const files = await risposta.json();
-
-        if (!Array.isArray(files)) {
-            throw new Error("Risposta GitHub non valida");
-        }
-
-        files.sort((a, b) => {
-            if (a.type !== b.type) {
-                return a.type === "dir" ? -1 : 1;
-            }
-            return a.name.localeCompare(b.name);
-        });
-
-        elenco.replaceChildren();
-
-        if (files.length === 0) {
-            stato.textContent = "Questa cartella è vuota.";
-            elenco.appendChild(stato);
-            return;
-        }
-
-        for (const file of files) {
-            const link = document.createElement("a");
-            link.className = "voce";
-
-            const icona = document.createElement("span");
-            icona.className = "icona";
-            icona.textContent = file.type === "dir" ? "📁" : "📄";
-
-            const nome = document.createElement("span");
-            nome.textContent = file.name;
-
-            link.append(icona, nome);
-
-            if (file.type === "dir") {
-                link.href = "#";
-                link.onclick = (e) => {
-                    e.preventDefault();
-                    carica(file.path);
-                };
-            } else if (/\.html?$/i.test(file.name)) {
-                link.href = BASE + file.path
-                    .split("/")
-                    .map(encodeURIComponent)
-                    .join("/");
-            } else {
-                link.href = file.html_url;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-            }
-
-            elenco.appendChild(link);
-        }
-    } catch (errore) {
-        elenco.replaceChildren();
-
-        const messaggio = document.createElement("div");
-        messaggio.id = "stato";
-        messaggio.textContent =
-            "Impossibile caricare i file: " + errore.message;
-
-        elenco.appendChild(messaggio);
-    }
-}
-
-carica();
-</script>
 
 </body>
 </html>
