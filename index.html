@@ -121,14 +121,21 @@
     
             link.href = "/" + percorso;
             link.target = "_blank";
+           
         } else {
-            link.href = elemento.html_url;
+            link.textContent = "📄 " + elemento.name;
+        
+            const baseURL =
+                "https://tommasofalchero.github.io/JavaScript-2026-2027/";
+        
+            link.href = baseURL + elemento.path
+                .split("/")
+                .map(parte => encodeURIComponent(parte))
+                .join("/");
+        
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-        }
-    }
-    
-    mostraFile();
+}
 </script>
 
     </script>
