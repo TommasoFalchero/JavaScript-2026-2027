@@ -59,66 +59,77 @@
     <p id="status">Caricamento dei file...</p>
     <div id="files"></div>
 
-    <script>
-        // MODIFICA QUESTI 3 VALORI
-        const proprietario = "TommasoFalchero";
-        const repository = "JavaScript-2026-2027";
-        const branch = "main";
-
-        const contenitore = document.getElementById("files");
-        const stato = document.getElementById("status");
-
-        async function mostraFile(percorso = "") {
-            const api =
-                `https://api.github.com/repos/${proprietario}/${repository}/contents/${percorso}?ref=${branch}`;
-
-            try {
-                const risposta = await fetch(api);
-
-                if (!risposta.ok) {
-                    throw new Error("Impossibile caricare i file.");
-                }
-
-                const elementi = await risposta.json();
-
-                elementi.sort((a, b) => {
-                    if (a.type === b.type) {
-                        return a.name.localeCompare(b.name);
-                    }
-                    return a.type === "dir" ? -1 : 1;
-                });
-
-                for (const elemento of elementi) {
-                    const link = document.createElement("a");
-                    link.className = "file";
-
-                    if (elemento.type === "dir") {
-                        link.classList.add("folder");
-                        link.textContent = "📁 " + elemento.name + "/";
-                        link.href = "#";
-                        link.onclick = (evento) => {
-                            evento.preventDefault();
-                            mostraFile(elemento.path);
-                        };
-                    } else {
-                        link.textContent = "📄 " + elemento.name;
-                        link.href = elemento.html_url;
-                        link.target = "_blank";
-                        link.rel = "noopener noreferrer";
-                    }
-
-                    contenitore.appendChild(link);
-                }
-
-                stato.textContent = "File e cartelle della repository";
-            } catch (errore) {
-                stato.textContent =
-                    "Errore nel caricamento. Controlla username, repository e branch.";
-                console.error(errore);
+    
+<script>
+    const proprietario = "TommasoFalchero";
+    const repository = "JavaScript 2026/2027";
+    const branch = "main";
+    
+    const contenitore = document.getElementById("files");
+    const stato = document.getElementById("status");
+    
+    async function mostraFile(percorso = "") {
+        const url = `https://api.github.com/repos/${
+            encodeURIComponent(proprietario)
+        }/${encodeURIComponent(repository)}/contents/${
+            percorso.split("/").map(encodeURIComponent).join("/")
+        }?ref=${encodeURIComponent(branch)}`;
+    
+        try {
+            const risposta = await fetch(url);
+            const dati = await risposta.json();
+    
+            if (!risposta.ok) {
+                throw new Error(
+                    `HTTP ${risposta.status}: ${
+                        dati.message || "Errore sconosciuto"
+                    }`
+                );
             }
+    
+            if (!Array.isArray(dati)) {
+                throw new Error("GitHub non ha restituito un elenco di file.");
+            }
+    
+            contenitore.replaceChildren();
+    
+            dati.sort((a, b) =>
+                a.type === b.type
+                    ? a.name.localeCompare(b.name)
+                    : a.type === "dir" ? -1 : 1
+            );
+    
+            for (const elemento of dati) {
+                const link = document.createElement("a");
+                link.className = "file";
+    
+                if (elemento.type === "dir") {
+                    link.textContent = "📁 " + elemento.name + "/";
+                    link.href = "#";
+                    link.onclick = (e) => {
+                        e.preventDefault();
+                        mostraFile(elemento.path);
+                    };
+                } else {
+                    link.textContent = "📄 " + elemento.name;
+                    link.href = elemento.html_url;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                }
+    
+                contenitore.appendChild(link);
+            }
+    
+            stato.textContent = `Elementi trovati: ${dati.length}`;
+        } catch (errore) {
+            stato.textContent = "Errore: " + errore.message;
+            console.error(errore);
         }
+    }
+    
+    mostraFile();
+</script>
 
-        mostraFile();
     </script>
 
 </body>
