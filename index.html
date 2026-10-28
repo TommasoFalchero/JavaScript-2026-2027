@@ -2,144 +2,239 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I miei file</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript 2026-2027</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            color: #222;
-            margin: 0;
-            padding: 30px;
-        }
+<style>
+    * { box-sizing: border-box; }
 
-        h1 {
-            text-align: center;
-        }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f6f8;
+        color: #202124;
+    }
 
-        #files {
-            max-width: 800px;
-            margin: 25px auto;
-        }
+    header {
+        background: #202124;
+        color: white;
+        padding: 28px 20px;
+    }
 
-        .file {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px;
-            margin-bottom: 8px;
-            background: white;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #222;
-            box-shadow: 0 2px 5px #0000000d;
-            overflow-wrap: anywhere;
-        }
+    header, main {
+        padding-left: max(20px, calc((100% - 900px) / 2));
+        padding-right: max(20px, calc((100% - 900px) / 2));
+    }
 
-        .file:hover {
-            background: #e8f0fe;
-        }
+    header h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+    }
 
-        .folder {
-            font-weight: bold;
-        }
+    header p {
+        margin: 0;
+        color: #c5c8ce;
+        font-size: 14px;
+    }
 
-        #status {
-            text-align: center;
-            color: #666;
-        }
-    </style>
+    main {
+        max-width: 940px;
+        margin: 30px auto;
+    }
+
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
+
+    #percorso {
+        color: #5f6368;
+        font-size: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    button {
+        padding: 9px 13px;
+        border: 1px solid #dadce0;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    #elenco {
+        background: white;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .voce {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 15px 18px;
+        border-bottom: 1px solid #eee;
+        text-decoration: none;
+        color: #202124;
+        overflow-wrap: anywhere;
+    }
+
+    .voce:last-child { border-bottom: 0; }
+
+    a.voce:hover {
+        background: #f0f5ff;
+    }
+
+    .icona {
+        width: 24px;
+        flex-shrink: 0;
+    }
+
+    #stato {
+        padding: 20px;
+        color: #5f6368;
+        font-size: 14px;
+    }
+
+    footer {
+        text-align: center;
+        color: #777;
+        font-size: 13px;
+        padding: 20px;
+    }
+</style>
 </head>
 
 <body>
 
-    <h1>📁 I miei file</h1>
-    <p id="status">Caricamento dei file...</p>
-    <div id="files"></div>
+<header>
+    <h1>JavaScript 2026-2027</h1>
+    <p>Repository di esercizi e progetti</p>
+</header>
 
-    
+<main>
+    <div class="toolbar">
+        <div id="percorso">Repository /</div>
+        <button id="indietro" hidden>← Indietro</button>
+    </div>
+
+    <div id="elenco">
+        <div id="stato">Caricamento...</div>
+    </div>
+</main>
+
+<footer>TommasoFalchero · GitHub Pages</footer>
 
 <script>
-const proprietario = "TommasoFalchero";
-const repository = "JavaScript 2026-2027";
-const branch = "main";
+const UTENTE = "TommasoFalchero";
+const REPO = "JavaScript 2026-2027";
+const BRANCH = "main";
+const BASE = "/JavaScript-2026-2027/";
 
-const contenitore = document.getElementById("files");
-const stato = document.getElementById("status");
+const elenco = document.getElementById("elenco");
+const stato = document.getElementById("stato");
+const percorsoLabel = document.getElementById("percorso");
+const indietro = document.getElementById("indietro");
 
-const baseURL =
-    "https://tommasofalchero.github.io/JavaScript-2026-2027/";
+let cartella = "";
 
-async function mostraFile(percorso = "") {
-    stato.textContent = "Caricamento dei file...";
-    contenitore.replaceChildren();
+async function carica(percorso = "") {
+    cartella = percorso;
+    elenco.replaceChildren();
 
-    const url =
-        `https://api.github.com/repos/${proprietario}/${repository}/contents/` +
-        `${percorso.split("/").map(encodeURIComponent).join("/")}` +
-        `?ref=${branch}`;
+    stato.textContent = "Caricamento...";
+    elenco.appendChild(stato);
+
+    percorsoLabel.textContent =
+        "Repository /" + (percorso ? percorso + "/" : "");
+
+    indietro.hidden = !percorso;
+    indietro.onclick = () => {
+        const parti = cartella.split("/");
+        parti.pop();
+        carica(parti.join("/"));
+    };
 
     try {
-        const risposta = await fetch(url);
-        const dati = await risposta.json();
+        const api = `https://api.github.com/repos/${UTENTE}/${REPO}/contents/${percorso}?ref=${BRANCH}`;
+        const risposta = await fetch(api);
 
         if (!risposta.ok) {
-            throw new Error(
-                `HTTP ${risposta.status}: ${dati.message || "Errore API"}`
-            );
+            throw new Error(`HTTP ${risposta.status}`);
         }
 
-        if (!Array.isArray(dati)) {
-            throw new Error("La risposta GitHub non è un elenco di file.");
+        const files = await risposta.json();
+
+        if (!Array.isArray(files)) {
+            throw new Error("Risposta GitHub non valida");
         }
 
-        dati.sort((a, b) => {
+        files.sort((a, b) => {
             if (a.type !== b.type) {
                 return a.type === "dir" ? -1 : 1;
             }
             return a.name.localeCompare(b.name);
         });
 
-        for (const elemento of dati) {
+        elenco.replaceChildren();
+
+        if (files.length === 0) {
+            stato.textContent = "Questa cartella è vuota.";
+            elenco.appendChild(stato);
+            return;
+        }
+
+        for (const file of files) {
             const link = document.createElement("a");
-            link.className = "file";
+            link.className = "voce";
 
-            if (elemento.type === "dir") {
-                link.textContent = "📁 " + elemento.name + "/";
+            const icona = document.createElement("span");
+            icona.className = "icona";
+            icona.textContent = file.type === "dir" ? "📁" : "📄";
+
+            const nome = document.createElement("span");
+            nome.textContent = file.name;
+
+            link.append(icona, nome);
+
+            if (file.type === "dir") {
                 link.href = "#";
-
-                link.onclick = (evento) => {
-                    evento.preventDefault();
-                    mostraFile(elemento.path);
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    carica(file.path);
                 };
+            } else if (/\.html?$/i.test(file.name)) {
+                link.href = BASE + file.path
+                    .split("/")
+                    .map(encodeURIComponent)
+                    .join("/");
             } else {
-                link.textContent = "📄 " + elemento.name;
-
-                link.href = baseURL +
-                    elemento.path.split("/")
-                        .map(encodeURIComponent)
-                        .join("/");
-
+                link.href = file.html_url;
                 link.target = "_blank";
                 link.rel = "noopener noreferrer";
             }
 
-            contenitore.appendChild(link);
+            elenco.appendChild(link);
         }
-
-        stato.textContent = `${dati.length} elementi trovati.`;
-
     } catch (errore) {
-        stato.textContent = "Errore nel caricamento: " + errore.message;
-        console.error(errore);
+        elenco.replaceChildren();
+
+        const messaggio = document.createElement("div");
+        messaggio.id = "stato";
+        messaggio.textContent =
+            "Impossibile caricare i file: " + errore.message;
+
+        elenco.appendChild(messaggio);
     }
 }
 
-mostraFile();
+carica();
 </script>
-
 
 </body>
 </html>
