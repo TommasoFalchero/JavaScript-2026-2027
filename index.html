@@ -60,85 +60,86 @@
     <div id="files"></div>
 
     
+
 <script>
-    const proprietario = "TommasoFalchero";
-    const repository = "JavaScript 2026/2027";
-    const branch = "main";
-    
-    const contenitore = document.getElementById("files");
-    const stato = document.getElementById("status");
-    
-    async function mostraFile(percorso = "") {
-        const url = `https://api.github.com/repos/${
-            encodeURIComponent(proprietario)
-        }/${encodeURIComponent(repository)}/contents/${
-            percorso.split("/").map(encodeURIComponent).join("/")
-        }?ref=${encodeURIComponent(branch)}`;
-    
-        try {
-            const risposta = await fetch(url);
-            const dati = await risposta.json();
-    
-            if (!risposta.ok) {
-                throw new Error(
-                    `HTTP ${risposta.status}: ${
-                        dati.message || "Errore sconosciuto"
-                    }`
-                );
-            }
-    
-            if (!Array.isArray(dati)) {
-                throw new Error("GitHub non ha restituito un elenco di file.");
-            }
-    
-            contenitore.replaceChildren();
-    
-            dati.sort((a, b) =>
-                a.type === b.type
-                    ? a.name.localeCompare(b.name)
-                    : a.type === "dir" ? -1 : 1
+const proprietario = "TommasoFalchero";
+const repository = "JavaScript 2026-2027";
+const branch = "main";
+
+const contenitore = document.getElementById("files");
+const stato = document.getElementById("status");
+
+const baseURL =
+    "https://tommasofalchero.github.io/JavaScript-2026-2027/";
+
+async function mostraFile(percorso = "") {
+    stato.textContent = "Caricamento dei file...";
+    contenitore.replaceChildren();
+
+    const url =
+        `https://api.github.com/repos/${proprietario}/${repository}/contents/` +
+        `${percorso.split("/").map(encodeURIComponent).join("/")}` +
+        `?ref=${branch}`;
+
+    try {
+        const risposta = await fetch(url);
+        const dati = await risposta.json();
+
+        if (!risposta.ok) {
+            throw new Error(
+                `HTTP ${risposta.status}: ${dati.message || "Errore API"}`
             );
-    
-            for (const elemento of dati) {
-                const link = document.createElement("a");
-                link.className = "file";
-    
-                if (elemento.type === "dir") {
-                    link.textContent = "📁 " + elemento.name + "/";
-                    link.href = "#";
-                    link.onclick = (e) => {
-                        e.preventDefault();
-                        mostraFile(elemento.path);
-                    };
-                   } else {
-        link.textContent = "📄 " + elemento.name;
-    
-        if (elemento.name.endsWith(".html")) {
-            const percorso = elemento.path
-                .split("/")
-                .map(encodeURIComponent)
-                .join("/");
-    
-            link.href = "/" + percorso;
-            link.target = "_blank";
-           
-        } else {
-            link.textContent = "📄 " + elemento.name;
-        
-            const baseURL =
-                "https://tommasofalchero.github.io/JavaScript-2026-2027/";
-        
-            link.href = baseURL + elemento.path
-                .split("/")
-                .map(parte => encodeURIComponent(parte))
-                .join("/");
-        
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
+        }
+
+        if (!Array.isArray(dati)) {
+            throw new Error("La risposta GitHub non è un elenco di file.");
+        }
+
+        dati.sort((a, b) => {
+            if (a.type !== b.type) {
+                return a.type === "dir" ? -1 : 1;
+            }
+            return a.name.localeCompare(b.name);
+        });
+
+        for (const elemento of dati) {
+            const link = document.createElement("a");
+            link.className = "file";
+
+            if (elemento.type === "dir") {
+                link.textContent = "📁 " + elemento.name + "/";
+                link.href = "#";
+
+                link.onclick = (evento) => {
+                    evento.preventDefault();
+                    mostraFile(elemento.path);
+                };
+            } else {
+                link.textContent = "📄 " + elemento.name;
+
+                link.href = baseURL +
+                    elemento.path.split("/")
+                        .map(encodeURIComponent)
+                        .join("/");
+
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+            }
+
+            contenitore.appendChild(link);
+        }
+
+        stato.textContent = `${dati.length} elementi trovati.`;
+
+    } catch (errore) {
+        stato.textContent = "Errore nel caricamento: " + errore.message;
+        console.error(errore);
+    }
 }
+
+mostraFile();
 </script>
 
-    </script>
 
 </body>
 </html>
