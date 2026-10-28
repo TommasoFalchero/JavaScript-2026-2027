@@ -7,129 +7,85 @@
     <title>JavaScript 2026–2027</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f5f7;
-            color: #24292f;
-            line-height: 1.5;
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #333;
         }
 
         header {
-            background: #24292f;
-            color: white;
-            padding: 36px 20px;
+            padding: 25px 20px;
+            background: #eee;
+            border-bottom: 1px solid #ddd;
         }
 
-        .header-content,
-        main,
-        footer {
-            width: 100%;
-            max-width: 900px;
-            margin: auto;
+        header, main, footer {
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         header h1 {
-            margin: 0 0 8px;
-            font-size: 28px;
-            font-weight: 600;
+            margin: 0;
+            font-size: 26px;
         }
 
         header p {
-            margin: 0;
-            color: #c9d1d9;
+            margin-bottom: 0;
+            color: #666;
         }
 
         main {
-            padding: 35px 20px 50px;
+            max-width: 700px;
+            margin: 30px auto;
         }
 
-        .intro {
-            margin-bottom: 25px;
-        }
-
-        .intro h2 {
-            margin: 0 0 5px;
-            font-size: 21px;
-        }
-
-        .intro p {
-            margin: 0;
-            color: #656d76;
-            font-size: 14px;
+        h2 {
+            font-size: 20px;
         }
 
         .file-list {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
+            display: flex;
+            flex-direction: column;
         }
 
         .file {
             display: flex;
             align-items: center;
-            gap: 14px;
-            min-width: 0;
-            padding: 20px;
-            background: white;
-            border: 1px solid #d8dee4;
-            border-radius: 9px;
+            justify-content: space-between;
+            padding: 15px 5px;
+            border-bottom: 1px solid #ddd;
+            color: #333;
             text-decoration: none;
-            color: inherit;
-            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
         .file:hover {
-            border-color: #0969da;
-            box-shadow: 0 3px 12px #0000000a;
-        }
-
-        .file-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 43px;
-            height: 43px;
-            flex-shrink: 0;
-            background: #eaf2ff;
             color: #0969da;
-            border-radius: 8px;
-            font-size: 21px;
         }
 
-        .file-info {
-            min-width: 0;
-        }
-
-        .file-info strong {
+        .file strong {
             display: block;
-            font-size: 15px;
-            overflow-wrap: anywhere;
+            font-size: 16px;
         }
 
-        .file-info span {
+        .file span {
             display: block;
             margin-top: 4px;
-            color: #656d76;
+            color: #777;
             font-size: 13px;
         }
 
         .arrow {
-            margin-left: auto;
-            color: #8c959f;
-            font-size: 20px;
+            font-size: 22px;
         }
 
         footer {
-            padding: 20px;
-            border-top: 1px solid #d8dee4;
-            color: #656d76;
-            font-size: 13px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-top: 1px solid #ddd;
             text-align: center;
+            font-size: 13px;
+            color: #666;
         }
 
         footer a {
@@ -137,26 +93,8 @@
             text-decoration: none;
         }
 
-        @media (max-width: 600px) {
-            header {
-                padding: 28px 20px;
-            }
-
-            header h1 {
-                font-size: 23px;
-            }
-
-            main {
-                padding-top: 25px;
-            }
-
-            .file-list {
-                grid-template-columns: 1fr;
-            }
-
-            .file {
-                padding: 16px;
-            }
+        footer p {
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -164,23 +102,18 @@
 <body>
 
     <header>
-        <div class="header-content">
-            <h1>JavaScript 2026–2027</h1>
-            <p>Raccolta di esercizi e progetti</p>
-        </div>
+        <h1>JavaScript 2026–2027</h1>
+        <p>Raccolta di esercizi e progetti</p>
     </header>
 
     <main>
-        <section class="intro">
-            <h2>Elenco degli esercizi</h2>
-            <p>Seleziona un esercizio per aprire la relativa pagina.</p>
-        </section>
+        <h2>Elenco degli esercizi</h2>
+        <p>Seleziona un esercizio per aprirlo.</p>
 
         <div class="file-list">
 
             <a class="file" href="./Nome%20e%20Cognome.html">
-                <div class="file-icon">JS</div>
-                <div class="file-info">
+                <div>
                     <strong>Nome e Cognome</strong>
                     <span>Esercizio HTML</span>
                 </div>
@@ -188,8 +121,7 @@
             </a>
 
             <a class="file" href="./Nome%20e%20Cognome%202.html">
-                <div class="file-icon">JS</div>
-                <div class="file-info">
+                <div>
                     <strong>Nome e Cognome 2</strong>
                     <span>Esercizio HTML</span>
                 </div>
@@ -197,8 +129,7 @@
             </a>
 
             <a class="file" href="./Nome%20e%20Cognome%203.html">
-                <div class="file-icon">JS</div>
-                <div class="file-info">
+                <div>
                     <strong>Nome e Cognome 3</strong>
                     <span>Esercizio HTML</span>
                 </div>
@@ -206,8 +137,7 @@
             </a>
 
             <a class="file" href="./esJavaScriptBinaria.html">
-                <div class="file-icon">JS</div>
-                <div class="file-info">
+                <div>
                     <strong>JavaScript Binaria</strong>
                     <span>Esercizio di programmazione</span>
                 </div>
