@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input id="numero" placeholder="Inserisci un numero">
+<button onclick="converti()">Converti</button>
+
+<p id="risultato"></p>
+
+<script>
+function converti() {
+    let n = parseInt(document.getElementById("numero").value);
+    let binario = "";
+    while (n > 0) {
+        binario = (n % 2) + binario;
+        n = Math.floor(n / 2);
+    }
+    document.getElementById("risultato").innerHTML = binario;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>INSERIRE I DATI:</h1>
+
+<label for="fname">Nome:</label><br>
+<input type="text" id="fname" name="fname"><br>
+
+<label for="lname">Cognome:</label><br>
+<input type="text" id="lname" name="lname"><br><br>
+
+<input type="button" value="Avanti" onclick="RisultatoColorati()"> <br><br>
+
+<label for="colore">Colore (inserisci il nome in inglese del colore desiderato, no maiuscola iniziale):</label><br><br>
+<input type="text" id="colore" colore="colore"><br><br>
+
+<p id="risultato"></p>
+
+<table border="1">
+    <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+    </tr>
+
+    <tr>
+        <td id="nomeTabella"></td>
+        <td id="cognomeTabella"></td>
+    </tr>
+</table>
+
+<script>
+
+function RisultatoColorati() {
+
+    let nome = document.getElementById("fname").value;
+    let cognome = document.getElementById("lname").value;
+    let colore = document.getElementById("colore").value;
+
+    document.getElementById("nomeTabella").innerHTML = nome;
+    document.getElementById("cognomeTabella").innerHTML = cognome;
+
+    document.getElementById("nomeTabella").style.color = colore;
+    document.getElementById("cognomeTabella").style.color = colore;
+
+}
+
+</script>
+
+</body>
+</html>

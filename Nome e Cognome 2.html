@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>INSERIRE I DATI:</h1>
+
+<label for="fname">Nome:</label><br>
+<input type="text" id="fname" name="fname"><br>
+
+<label for="lname">Cognome:</label><br>
+<input type="text" id="lname" name="lname"><br><br>
+
+<input type="button" value="Avanti" onclick="RisultatoColorati()">
+
+<p id="risultato"></p>
+
+<table border="1">
+    <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+    </tr>
+
+    <tr>
+        <td id="nomeTabella"></td>
+        <td id="cognomeTabella"></td>
+    </tr>
+</table>
+
+<script>
+
+function RisultatoColorati() {
+
+    let nome = document.getElementById("fname").value;
+    let cognome = document.getElementById("lname").value;
+
+    document.getElementById("risultato").innerHTML = 
+        nome + " " + cognome;
+
+    document.getElementById("risultato").style.color = "blue";
+
+    document.getElementById("nomeTabella").innerHTML = nome;
+    document.getElementById("cognomeTabella").innerHTML = cognome;
+}
+
+</script>
+
+</body>
+</html>
