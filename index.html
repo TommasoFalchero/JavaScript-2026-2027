@@ -110,20 +110,21 @@
                         e.preventDefault();
                         mostraFile(elemento.path);
                     };
-                } else {
-                    link.textContent = "📄 " + elemento.name;
-                    link.href = elemento.html_url;
-                    link.target = "_blank";
-                    link.rel = "noopener noreferrer";
-                }
+                   } else {
+        link.textContent = "📄 " + elemento.name;
     
-                contenitore.appendChild(link);
-            }
+        if (elemento.name.endsWith(".html")) {
+            const percorso = elemento.path
+                .split("/")
+                .map(encodeURIComponent)
+                .join("/");
     
-            stato.textContent = `Elementi trovati: ${dati.length}`;
-        } catch (errore) {
-            stato.textContent = "Errore: " + errore.message;
-            console.error(errore);
+            link.href = "/" + percorso;
+            link.target = "_blank";
+        } else {
+            link.href = elemento.html_url;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
         }
     }
     
