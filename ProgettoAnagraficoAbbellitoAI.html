@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Programma dei dati anagrafici</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 15px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+        }
+
+        .contenitore {
+            max-width: 850px;
+            margin: auto;
+            background-color: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #5542a8;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .sottotitolo {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #5542a8;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        .campo {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 5px rgba(118,75,162,0.3);
+        }
+
+        .opzioni {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .opzioni label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .sport-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .sport-container label {
+            background: #f3f0ff;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: normal;
+            cursor: pointer;
+            margin: 0;
+            transition: 0.3s;
+        }
+
+        .sport-container label:hover {
+            background: #e2dafa;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            accent-color: #764ba2;
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .pulsanti {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .invia {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .cancella {
+            background-color: #e74c3c;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        th {
+            background: #684db1;
+            color: white;
+            padding: 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #444;
+            overflow-wrap: anywhere;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f5f3fc;
+        }
+
+        tr:hover {
+            background-color: #ebe6fa;
+        }
+
+        @media (max-width: 600px) {
+
+            .contenitore {
+                padding: 20px;
+            }
+
+            .sport-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pulsanti {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="contenitore">
+
+        <h1>📋 Dati Anagrafici</h1>
+
+        <p class="sottotitolo">
+            Compila il modulo inserendo le tue informazioni personali
+        </p>
+
+        <form id="modulo">
+
+            <h2>Informazioni personali</h2>
+
+            <div class="campo">
+                <label>NOME:</label>
+                <input type="text" name="nome">
+            </div>
+
+            <div class="campo">
+                <label>COGNOME:</label>
+                <input type="text" name="cognome">
+            </div>
+
+            <div class="campo">
+                <label>ETÀ:</label>
+                <input type="number" name="eta">
+            </div>
+
+            <div class="campo">
+
+                <label>SESSO:</label>
+
+                <div class="opzioni">
+                    <label>
+                        <input type="radio" name="sesso" value="Maschio">
+                        Maschio
+                    </label>
+
+                    <label>
+                        <input type="radio" name="sesso" value="Femmina">
+                        Femmina
+                    </label>
+
+                    <label>
+                        <input type="radio" name="sesso" value="Altro">
+                        Altro
+                    </label>
+                </div>
+
+            </div>
+
+            <h2>Residenza</h2>
+
+            <div class="campo">
+                <label>INDIRIZZO:</label>
+                <input type="text" name="indirizzo">
+            </div>
+
+            <div class="campo">
+                <label>CITTÀ:</label>
+                <input type="text" name="citta">
+            </div>
+
+            <div class="campo">
+
+                <label>PROVINCIA:</label>
+
+                <select name="provincia">
+                    <option value="MI">Milano</option>
+                    <option value="RM">Roma</option>
+                    <option value="TO">Torino</option>
+                    <option value="NA">Napoli</option>
+                    <option value="FI">Firenze</option>
+                </select>
+
+            </div>
+
+            <h2>Sport praticati</h2>
+
+            <div class="sport-container">
+
+                <label><input type="checkbox" name="sport" value="Calcio"> Calcio</label>
+                <label><input type="checkbox" name="sport" value="Nuoto"> Nuoto</label>
+                <label><input type="checkbox" name="sport" value="Pallavolo"> Pallavolo</label>
+                <label><input type="checkbox" name="sport" value="Tennis"> Tennis</label>
+                <label><input type="checkbox" name="sport" value="Boxe"> Boxe</label>
+                <label><input type="checkbox" name="sport" value="Pallanuoto"> Pallanuoto</label>
+                <label><input type="checkbox" name="sport" value="Basket"> Basket</label>
+                <label><input type="checkbox" name="sport" value="Atletica"> Atletica</label>
+                <label><input type="checkbox" name="sport" value="Equitazione"> Equitazione</label>
+                <label><input type="checkbox" name="sport" value="Sci"> Sci</label>
+                <label><input type="checkbox" name="sport" value="Pattinaggio"> Pattinaggio</label>
+                <label><input type="checkbox" name="sport" value="Ciclismo"> Ciclismo</label>
+                <label><input type="checkbox" name="sport" value="Non pratico Sport"> Non pratico Sport</label>
+
+            </div>
+
+            <h2>Commenti</h2>
+
+            <div class="campo">
+
+                <textarea name="commenti" rows="5"
+                    placeholder="Scrivi qui eventuali commenti..."></textarea>
+
+            </div>
+
+            <div class="pulsanti">
+
+                <button type="submit" class="invia">
+                    ✓ Invia dati
+                </button>
+
+                <button type="reset" class="cancella">
+                    ✕ Cancella
+                </button>
+
+            </div>
+
+        </form>
+
+        <h2>📊 Dati inseriti</h2>
+
+        <table id="tabella">
+
+            <tr>
+                <th>Dato</th>
+                <th>Valore</th>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <script>
+
+        document.getElementById("modulo").onsubmit = function(event) {
+
+            event.preventDefault();
+
+            let nome = document.getElementsByName("nome")[0].value;
+            let cognome = document.getElementsByName("cognome")[0].value;
+            let eta = document.getElementsByName("eta")[0].value;
+            if (eta < 0) {
+                alert("Età non valida! Inserisci un'età maggiore o uguale a 0.");
+                return;
+            }
+
+            let sesso = document.querySelector('input[name="sesso"]:checked');
+
+            if (sesso == null) {
+                sesso = "Non selezionato";
+            } else {
+                sesso = sesso.value;
+            }
+
+            let indirizzo = document.getElementsByName("indirizzo")[0].value;
+            let citta = document.getElementsByName("citta")[0].value;
+
+            let provincia = document.getElementsByName("provincia")[0];
+            provincia = provincia.options[provincia.selectedIndex].text;
+
+            let sportSelezionati = document.querySelectorAll('input[name="sport"]:checked');
+
+            let sport = "";
+
+            sportSelezionati.forEach(function(elemento) {
+                sport = sport + elemento.value + " ";
+            });
+
+            let commenti = document.getElementsByName("commenti")[0].value;
+
+            let tabella = document.getElementById("tabella");
+
+            tabella.innerHTML = "<tr><th>Dato</th><th>Valore</th></tr>";
+
+            function aggiungiRiga(dato, valore) {
+
+                let riga = tabella.insertRow();
+
+                let cella1 = riga.insertCell();
+                let cella2 = riga.insertCell();
+
+                cella1.textContent = dato;
+                cella2.textContent = valore;
+
+            }
+
+            aggiungiRiga("Nome", nome);
+            aggiungiRiga("Cognome", cognome);
+            aggiungiRiga("Età", eta);
+            aggiungiRiga("Sesso", sesso);
+            aggiungiRiga("Indirizzo", indirizzo);
+            aggiungiRiga("Città", citta);
+            aggiungiRiga("Provincia", provincia);
+            aggiungiRiga("Sport praticati", sport);
+            aggiungiRiga("Commenti", commenti);
+
+        };
+
+    </script>
+
+</body>
+
+</html>
