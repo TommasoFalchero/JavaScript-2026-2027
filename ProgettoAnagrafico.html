@@ -1,73 +1,92 @@
-
+```html
 <!DOCTYPE html>
 <html>
 
 <head>
+    <!-- Titolo che appare nella scheda del browser -->
     <title>Programma dei dati anagrafici</title>
 </head>
 
 <body>
 
+    <!-- Titolo principale visibile nella pagina -->
     <h1>Dati Anagrafici</h1>
 
+    <!-- Breve istruzione per spiegare all'utente cosa deve fare -->
     <p>
         Compila il modulo inserendo le tue informazioni personali
     </p>
 
+    <!-- Il form raccoglie tutti i dati inseriti dall'utente -->
     <form id="modulo">
 
+        <!-- Prima sezione: informazioni personali -->
         <h2>Informazioni personali</h2>
 
         <div>
+            <!-- Campo per inserire il nome -->
             <label>NOME:</label>
             <input type="text" name="nome">
         </div>
 
         <div>
+            <!-- Campo per inserire il cognome -->
             <label>COGNOME:</label>
             <input type="text" name="cognome">
         </div>
 
         <div>
+            <!-- Campo numerico per inserire l'età -->
             <label>ETÀ:</label>
             <input type="number" name="eta">
         </div>
 
         <div>
+            <!-- Per il sesso si usano i pulsanti radio:
+                 permettono di scegliere una sola opzione -->
             <label>SESSO:</label>
 
             <label>
+                <!-- Selezionando questa opzione, il valore sarà "Maschio" -->
                 <input type="radio" name="sesso" value="Maschio">
                 Maschio
             </label>
 
             <label>
+                <!-- Selezionando questa opzione, il valore sarà "Femmina" -->
                 <input type="radio" name="sesso" value="Femmina">
                 Femmina
             </label>
 
             <label>
+                <!-- Terza opzione disponibile -->
                 <input type="radio" name="sesso" value="Altro">
                 Altro
             </label>
         </div>
 
+        <!-- Seconda sezione: informazioni sulla residenza -->
         <h2>Residenza</h2>
 
         <div>
+            <!-- Campo di testo per l'indirizzo -->
             <label>INDIRIZZO:</label>
             <input type="text" name="indirizzo">
         </div>
 
         <div>
+            <!-- Campo di testo per la città -->
             <label>CITTÀ:</label>
             <input type="text" name="citta">
         </div>
 
         <div>
+            <!-- Menu a tendina per scegliere la provincia -->
             <label>PROVINCIA:</label>
 
             <select name="provincia">
+                <!-- Ogni option rappresenta una scelta del menu.
+                     value è il valore associato alla scelta -->
                 <option value="MI">Milano</option>
                 <option value="RM">Roma</option>
                 <option value="TO">Torino</option>
@@ -76,9 +95,12 @@
             </select>
         </div>
 
+        <!-- Terza sezione: scelta degli sport praticati -->
         <h2>Sport praticati</h2>
 
         <div>
+            <!-- Le caselle checkbox permettono di selezionare
+                 più sport contemporaneamente -->
             <label><input type="checkbox" name="sport" value="Calcio"> Calcio</label>
             <label><input type="checkbox" name="sport" value="Nuoto"> Nuoto</label>
             <label><input type="checkbox" name="sport" value="Pallavolo"> Pallavolo</label>
@@ -94,24 +116,34 @@
             <label><input type="checkbox" name="sport" value="Non pratico Sport"> Non pratico Sport</label>
         </div>
 
+        <!-- Quarta sezione: spazio per scrivere un commento -->
         <h2>Commenti</h2>
 
         <div>
+            <!-- textarea crea una casella di testo più grande.
+                 rows indica il numero indicativo di righe visibili.
+                 placeholder mostra un suggerimento iniziale -->
             <textarea name="commenti" rows="5"
                 placeholder="Scrivi qui eventuali commenti..."></textarea>
         </div>
 
         <div>
+            <!-- Invia i dati e avvia il codice JavaScript -->
             <button type="submit">Invia dati</button>
+
+            <!-- Cancella i valori inseriti nel modulo -->
             <button type="reset">Cancella</button>
         </div>
 
     </form>
 
+    <!-- Titolo della sezione in cui verranno mostrati i risultati -->
     <h2>Dati inseriti</h2>
 
+    <!-- Tabella che verrà riempita con i dati del modulo -->
     <table id="tabella" border="1">
 
+        <!-- Prima riga della tabella: intestazioni delle colonne -->
         <tr>
             <th>Dato</th>
             <th>Valore</th>
@@ -121,59 +153,131 @@
 
     <script>
 
+        // Cerca il modulo attraverso il suo id.
+        // onsubmit esegue questa funzione quando si invia il modulo.
         document.getElementById("modulo").onsubmit = function(event) {
 
+            // Impedisce alla pagina di ricaricarsi automaticamente
+            // quando si preme il pulsante "Invia dati".
             event.preventDefault();
 
+            // Recupera il campo con name="nome".
+            // getElementsByName restituisce una raccolta di elementi:
+            // [0] indica il primo elemento trovato.
+            // .value legge il testo inserito dall'utente.
             let nome = document.getElementsByName("nome")[0].value;
+
+            // Recupera il cognome inserito nel modulo
             let cognome = document.getElementsByName("cognome")[0].value;
+
+            // Recupera l'età inserita nel campo numerico.
+            // Il valore letto da .value è una stringa di testo.
             let eta = document.getElementsByName("eta")[0].value;
 
+
+            // Controlla se l'età è minore di zero.
+            // Se lo è, mostra un messaggio di errore.
             if (eta < 0) {
                 alert("Età non valida! Inserisci un'età maggiore o uguale a 0.");
+
+                // return interrompe la funzione:
+                // i dati non vengono aggiunti alla tabella.
                 return;
             }
 
+
+            // Cerca il pulsante radio del sesso che è stato selezionato.
+            // :checked significa "attualmente selezionato".
             let sesso = document.querySelector('input[name="sesso"]:checked');
 
+            // Se nessuna opzione è stata selezionata,
+            // querySelector restituisce null.
             if (sesso == null) {
+                // In questo caso, assegna un testo predefinito.
                 sesso = "Non selezionato";
             } else {
+                // Altrimenti, recupera il valore dell'opzione scelta.
+                // Per esempio: "Maschio", "Femmina" oppure "Altro".
                 sesso = sesso.value;
             }
 
+
+            // Recupera l'indirizzo inserito dall'utente
             let indirizzo = document.getElementsByName("indirizzo")[0].value;
+
+            // Recupera la città inserita dall'utente
             let citta = document.getElementsByName("citta")[0].value;
 
+
+            // Recupera il menu a tendina delle province.
             let provincia = document.getElementsByName("provincia")[0];
+
+            // selectedIndex indica la posizione dell'opzione selezionata.
+            // .options permette di accedere alle opzioni del menu.
+            // .text recupera il testo visibile della scelta.
+            // Per esempio, otteniamo "Milano" e non il codice "MI".
             provincia = provincia.options[provincia.selectedIndex].text;
 
+
+            // Cerca tutte le caselle degli sport che sono state selezionate.
+            // querySelectorAll restituisce una raccolta di elementi.
             let sportSelezionati = document.querySelectorAll('input[name="sport"]:checked');
 
+            // Crea una stringa inizialmente vuota.
+            // Qui verranno inseriti i nomi degli sport scelti.
             let sport = "";
 
+            // forEach ripete le istruzioni per ogni sport selezionato.
+            // elemento rappresenta la casella selezionata in quel momento.
             sportSelezionati.forEach(function(elemento) {
+
+                // Aggiunge il nome dello sport alla stringa.
+                // Lo spazio separa uno sport dal successivo.
                 sport = sport + elemento.value + " ";
+
             });
 
+
+            // Recupera il testo scritto nell'area dei commenti
             let commenti = document.getElementsByName("commenti")[0].value;
 
+
+            // Recupera la tabella tramite il suo id
             let tabella = document.getElementById("tabella");
 
+            // Svuota la tabella e ricrea la riga delle intestazioni.
+            // In questo modo, un nuovo invio sostituisce i risultati precedenti.
             tabella.innerHTML = "<tr><th>Dato</th><th>Valore</th></tr>";
 
+
+            // Definisce una funzione che aggiunge una riga alla tabella.
+            // Riceve due parametri:
+            // dato = nome dell'informazione;
+            // valore = contenuto da mostrare.
             function aggiungiRiga(dato, valore) {
 
+                // Crea una nuova riga nella tabella
                 let riga = tabella.insertRow();
 
+                // Crea la prima cella della nuova riga
                 let cella1 = riga.insertCell();
+
+                // Crea la seconda cella della nuova riga
                 let cella2 = riga.insertCell();
 
+                // Inserisce il nome del dato nella prima cella.
+                // textContent inserisce testo semplice.
                 cella1.textContent = dato;
+
+                // Inserisce il valore nella seconda cella.
                 cella2.textContent = valore;
 
             }
 
+
+            // Chiama la funzione per aggiungere una riga per ogni dato.
+            // Il primo argomento è il nome del dato,
+            // il secondo è il valore recuperato dal modulo.
             aggiungiRiga("Nome", nome);
             aggiungiRiga("Cognome", cognome);
             aggiungiRiga("Età", eta);
@@ -191,3 +295,4 @@
 </body>
 
 </html>
+```
