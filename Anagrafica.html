@@ -1,132 +1,59 @@
-<!DOCTYPE html>
-<html>
+function stampaDati() {
 
-<head>
-    <title>Programma dei dati anagrafici</title>
-</head>
+    let nome = document.getElementById("nome").value;
+    let cognome = document.getElementById("cognome").value;
+    let eta = document.getElementById("eta").value;
+    let indirizzo = document.getElementById("indirizzo").value;
+    let citta = document.getElementById("citta").value;
+    let provincia = document.getElementById("prov").value;
+    let commenti = document.getElementById("commenti").value;
 
-<body>
+    if (eta < 0) {
+        alert("Età non valida!");
+        return;
+    }
 
-    <h1>Dati Anagrafici</h1>
+    let sesso = "";
 
-    <p>
-        Compila il modulo inserendo le tue informazioni personali
-    </p>
+    for (let i = 0; i < document.getElementsByName("sesso").length; i++) {
 
-    <form id="modulo">
+        if (document.getElementsByName("sesso")[i].checked) {
+            sesso = document.getElementsByName("sesso")[i].value;
+        }
 
-        <h2>Informazioni personali</h2>
+    }
 
-        <div>
-            <label>NOME:</label>
-            <input type="text" id="nome" name="nome">
-        </div>
+    if (sesso == "") {
+        sesso = "Non selezionato";
+    }
 
-        <div>
-            <label>COGNOME:</label>
-            <input type="text" id="cognome" name="cognome">
-        </div>
+    let sport = "";
 
-        <div>
-            <label>ETÀ:</label>
-            <input type="number" id="eta" name="eta">
-        </div>
+    for (let i = 0; i < document.getElementsByName("sport").length; i++) {
 
-        <div>
-            <label>SESSO:</label>
+        if (document.getElementsByName("sport")[i].checked) {
+            sport += document.getElementsByName("sport")[i].value + " ";
+        }
 
-            <label>
-                <input type="radio" name="sesso" value="Maschio">
-                Maschio
-            </label>
+    }
 
-            <label>
-                <input type="radio" name="sesso" value="Femmina">
-                Femmina
-            </label>
+    if (sport == "") {
+        sport = "Nessuno";
+    }
 
-            <label>
-                <input type="radio" name="sesso" value="Altro">
-                Altro
-            </label>
-        </div>
+    let risultato =
+        "<tr><td>Nome</td><td>" + nome + "</td></tr>" +
+        "<tr><td>Cognome</td><td>" + cognome + "</td></tr>" +
+        "<tr><td>Età</td><td>" + eta + "</td></tr>" +
+        "<tr><td>Sesso</td><td>" + sesso + "</td></tr>" +
+        "<tr><td>Indirizzo</td><td>" + indirizzo + "</td></tr>" +
+        "<tr><td>Città</td><td>" + citta + "</td></tr>" +
+        "<tr><td>Provincia</td><td>" + provincia + "</td></tr>" +
+        "<tr><td>Sport</td><td>" + sport + "</td></tr>" +
+        "<tr><td>Commenti</td><td>" + commenti + "</td></tr>";
 
-        <h2>Residenza</h2>
+    document.getElementById("risultato").innerHTML = risultato;
 
-        <div>
-            <label>INDIRIZZO:</label>
-            <input type="text" id="indirizzo" name="indirizzo">
-        </div>
+    document.getElementById("tabella").style.display = "table";
 
-        <div>
-            <label>CITTÀ:</label>
-            <input type="text" id="citta" name="citta">
-        </div>
-
-        <div>
-            <label>PROVINCIA:</label>
-
-            <select id="prov" name="provincia">
-                <option value="MI">Milano</option>
-                <option value="RM">Roma</option>
-                <option value="TO">Torino</option>
-                <option value="NA">Napoli</option>
-                <option value="FI">Firenze</option>
-            </select>
-        </div>
-
-        <h2>Sport praticati</h2>
-
-        <div>
-            <label><input type="checkbox" name="sport" value="Calcio"> Calcio</label>
-            <label><input type="checkbox" name="sport" value="Nuoto"> Nuoto</label>
-            <label><input type="checkbox" name="sport" value="Pallavolo"> Pallavolo</label>
-            <label><input type="checkbox" name="sport" value="Tennis"> Tennis</label>
-            <label><input type="checkbox" name="sport" value="Boxe"> Boxe</label>
-            <label><input type="checkbox" name="sport" value="Pallanuoto"> Pallanuoto</label>
-            <label><input type="checkbox" name="sport" value="Basket"> Basket</label>
-            <label><input type="checkbox" name="sport" value="Atletica"> Atletica</label>
-            <label><input type="checkbox" name="sport" value="Equitazione"> Equitazione</label>
-            <label><input type="checkbox" name="sport" value="Sci"> Sci</label>
-            <label><input type="checkbox" name="sport" value="Pattinaggio"> Pattinaggio</label>
-            <label><input type="checkbox" name="sport" value="Ciclismo"> Ciclismo</label>
-            <label><input type="checkbox" name="sport" value="Non pratico Sport"> Non pratico Sport</label>
-        </div>
-
-        <h2>Commenti</h2>
-
-        <div>
-            <textarea id="commenti" name="commenti" rows="5"
-                placeholder="Scrivi qui eventuali commenti..."></textarea>
-        </div>
-
-        <div>
-            <button type="button" onclick="stampaDati()">
-                Inserisci dati
-            </button>
-
-            <button type="reset">
-                Cancella
-            </button>
-        </div>
-
-    </form>
-
-    <h2>Dati inseriti</h2>
-
-    <table id="tabella" border="1">
-
-        <tr>
-            <th>Dato</th>
-            <th>Valore</th>
-        </tr>
-
-        <tbody id="risultato"></tbody>
-
-    </table>
-
-    <script src="Anagrafico.js"></script>
-
-</body>
-
-</html>
+}
