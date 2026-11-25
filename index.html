@@ -1,201 +1,169 @@
 
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="Raccolta di esercizi e progetti JavaScript 2026-2027.">
-
-    <meta name="theme-color" content="#f5f5f5">
-
-    <title>JavaScript 2026–2027</title>
+    <meta name="description" content="Portfolio dei progetti JavaScript 2026-2027">
+    <title>I miei progetti | JavaScript 2026-2027</title>
 
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: #fff;
-            color: #333;
-            line-height: 1.5;
+            background: #0b1120;
+            color: #f1f5f9;
+            min-height: 100vh;
         }
 
         header {
-            padding: 35px 20px;
-            background: #f5f5f5;
-            border-bottom: 1px solid #e5e5e5;
+            padding: 75px 20px 55px;
+            text-align: center;
+            background: linear-gradient(135deg, #172554, #312e81, #0f172a);
         }
 
-        .header-content {
-            max-width: 700px;
-            margin: auto;
+        .tag {
+            display: inline-block;
+            color: #a5b4fc;
+            border: 1px solid #6366f1;
+            border-radius: 30px;
+            padding: 7px 16px;
+            font-size: 12px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
         }
 
         header h1 {
-            margin: 0;
-            font-size: 28px;
-            letter-spacing: -0.5px;
+            font-size: clamp(32px, 6vw, 55px);
+            margin-bottom: 15px;
+        }
+
+        header h1 span {
+            color: #818cf8;
         }
 
         header p {
-            margin: 6px 0 0;
-            color: #666;
-            font-size: 15px;
+            color: #cbd5e1;
+            font-size: 16px;
         }
 
         main {
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 0 20px;
-            min-height: 55vh;
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 22px;
         }
 
-        h2 {
-            margin: 0 0 8px;
-            font-size: 21px;
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
-        .intro {
-            margin-top: 0;
-            margin-bottom: 22px;
-            color: #666;
+        .section-title h2 {
+            font-size: 25px;
+        }
+
+        #counter {
+            color: #a5b4fc;
             font-size: 14px;
         }
 
-        .file-list {
+        .search {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            background: #172033;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 28px;
+        }
+
+        .search:focus {
+            border-color: #818cf8;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: #151f32;
+            border: 1px solid #263449;
+            border-radius: 16px;
+            padding: 25px;
+            transition: .25s;
             display: flex;
             flex-direction: column;
-            border-top: 1px solid #e5e5e5;
+            min-height: 210px;
         }
 
-        .file {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 17px 12px;
-            border-bottom: 1px solid #e5e5e5;
-            color: #333;
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #818cf8;
+            box-shadow: 0 12px 35px #0005;
+        }
+
+        .icon {
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            flex-grow: 1;
+        }
+
+        .card a {
+            display: inline-block;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background .2s, padding .2s, color .2s;
+            color: #a5b4fc;
+            font-weight: bold;
+            font-size: 14px;
         }
 
-        .file:hover {
-            background: #f6f8fa;
-            color: #0969da;
-            padding-left: 17px;
-        }
-
-        .file:focus-visible {
-            outline: 2px solid #0969da;
-            outline-offset: 3px;
-        }
-
-        .file strong {
-            display: block;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .file span {
-            display: block;
-            margin-top: 4px;
-            color: #777;
-            font-size: 13px;
-        }
-
-        .arrow {
-            flex-shrink: 0;
-            margin: 0 !important;
-            color: #999;
-            font-size: 25px !important;
-            transition: transform .2s, color .2s;
-        }
-
-        .file:hover .arrow {
-            color: #0969da;
-            transform: translateX(4px);
+        .card a:hover {
+            color: white;
         }
 
         .status {
-            color: #777;
-            font-size: 14px;
-            padding: 18px 0;
-        }
-
-        .retry {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 9px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: #fff;
-            color: #333;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .retry:hover {
-            background: #f6f8fa;
+            text-align: center;
+            color: #94a3b8;
+            padding: 40px 10px;
+            grid-column: 1 / -1;
         }
 
         footer {
-            padding: 25px 20px;
-            border-top: 1px solid #e5e5e5;
+            border-top: 1px solid #263449;
             text-align: center;
+            padding: 30px 15px;
+            color: #64748b;
             font-size: 13px;
-            color: #777;
+            margin-top: 70px;
         }
 
         footer a {
-            color: #0969da;
+            color: #818cf8;
             text-decoration: none;
-            font-weight: 600;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        footer p {
-            margin: 8px 0 0;
-        }
-
-        @media (max-width: 480px) {
-            header {
-                padding: 28px 20px;
-            }
-
-            header h1 {
-                font-size: 24px;
-            }
-
-            main {
-                margin: 30px auto;
-            }
-
-            .file {
-                padding: 15px 8px;
-            }
-
-            .file strong {
-                font-size: 14px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                transition: none !important;
-            }
         }
     </style>
 </head>
@@ -203,227 +171,185 @@
 <body>
 
     <header>
-        <div class="header-content">
-            <h1>JavaScript 2026–2027</h1>
-            <p>Raccolta di esercizi e progetti</p>
-        </div>
+        <div class="tag">PORTFOLIO SCOLASTICO · 2026/2027</div>
+
+        <h1>I miei progetti <span>JavaScript</span></h1>
+
+        <p>Una raccolta dei miei esercizi e progetti di programmazione.</p>
     </header>
 
     <main>
 
-        <h2>Elenco dei progetti</h2>
+        <div class="section-title">
+            <h2>Esplora i progetti</h2>
+            <span id="counter">Caricamento...</span>
+        </div>
 
-        <p class="intro">
-            Seleziona un progetto per aprirlo.
-        </p>
-
-        <nav
-            class="file-list"
-            id="fileList"
-            aria-label="Elenco dei progetti"
-            aria-live="polite"
+        <input
+            type="search"
+            class="search"
+            id="search"
+            placeholder="🔍 Cerca un progetto..."
+            aria-label="Cerca un progetto"
         >
-            <p class="status">Caricamento dei progetti...</p>
-        </nav>
+
+        <div class="grid" id="projects">
+            <div class="status">Caricamento dei progetti...</div>
+        </div>
 
     </main>
 
     <footer>
-
-        <a
-            href="https://github.com/TommasoFalchero/JavaScript-2026-2027"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            Repository su GitHub ↗
-        </a>
-
-        <p>Progetti JavaScript · Anno scolastico 2026–2027</p>
-
+        <p>
+            Realizzato con JavaScript · 2026/2027
+        </p>
+        <p style="margin-top:10px">
+            <a href="https://github.com/TommasoFalchero/JavaScript-2026-2027"
+               target="_blank">
+                Visualizza repository su GitHub ↗
+            </a>
+        </p>
     </footer>
 
     <script>
+        const USER = "TommasoFalchero";
+        const REPO = "JavaScript-2026-2027";
 
-        const fileList = document.getElementById("fileList");
+        const API = `https://api.github.com/repos/${USER}/${REPO}/contents`;
 
-        /**
-         * Crea un elemento HTML in sicurezza.
-         */
-        function creaElemento(tag, className, text) {
+        const container = document.getElementById("projects");
+        const counter = document.getElementById("counter");
+        const search = document.getElementById("search");
 
-            const element = document.createElement(tag);
+        const icons = ["💻", "⚡", "🔢", "🌐", "📚", "🚀"];
 
-            if (className) {
-                element.className = className;
-            }
+        let allProjects = [];
 
-            if (text !== undefined) {
-                element.textContent = text;
-            }
+        function createCard(project, index) {
+            const card = document.createElement("article");
+            card.className = "card";
 
-            return element;
-        }
+            const icon = document.createElement("div");
+            icon.className = "icon";
+            icon.textContent = icons[index % icons.length];
 
-        /**
-         * Mostra un messaggio di stato.
-         */
-        function mostraErrore() {
+            const title = document.createElement("h3");
+            title.textContent = project.name;
 
-            fileList.replaceChildren();
-
-            const message = creaElemento(
-                "p",
-                "status",
-                "Impossibile caricare i progetti."
-            );
-
-            const retry = creaElemento(
-                "button",
-                "retry",
-                "Riprova"
-            );
-
-            retry.type = "button";
-
-            retry.addEventListener("click", caricaProgetti);
-
-            fileList.append(message, retry);
-        }
-
-        /**
-         * Genera una voce per ciascun progetto.
-         */
-        function creaProgetto(project) {
+            const description = document.createElement("p");
+            description.textContent = "Progetto JavaScript della raccolta 2026/2027.";
 
             const link = document.createElement("a");
-
-            link.className = "file";
             link.href = project.url;
+            link.textContent = "Apri progetto →";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
 
-            const content = document.createElement("div");
+            card.append(icon, title, description, link);
 
-            const title = creaElemento(
-                "strong",
-                "",
-                project.title
-            );
-
-            const description = creaElemento(
-                "span",
-                "",
-                "Progetto JavaScript"
-            );
-
-            const arrow = creaElemento(
-                "span",
-                "arrow",
-                "›"
-            );
-
-            arrow.setAttribute("aria-hidden", "true");
-
-            content.append(title, description);
-
-            link.append(content, arrow);
-
-            return link;
+            return card;
         }
 
-        /**
-         * Carica automaticamente tutti i progetti.
-         */
-        async function caricaProgetti() {
+        function renderProjects(projects) {
+            container.replaceChildren();
 
-            fileList.replaceChildren();
+            counter.textContent = `${projects.length} progetti`;
 
-            fileList.appendChild(
-                creaElemento(
-                    "p",
-                    "status",
-                    "Caricamento dei progetti..."
-                )
-            );
+            if (projects.length === 0) {
+                const message = document.createElement("div");
+                message.className = "status";
+                message.textContent = "Nessun progetto trovato.";
+                container.appendChild(message);
+                return;
+            }
 
+            projects.forEach((project, index) => {
+                container.appendChild(createCard(project, index));
+            });
+        }
+
+        async function loadProjects() {
             try {
-
-                const response = await fetch(
-                    "./files.json?t=" + Date.now(),
-                    { cache: "no-store" }
-                );
+                const response = await fetch(API);
 
                 if (!response.ok) {
-                    throw new Error("File files.json non trovato.");
+                    throw new Error("Errore nel caricamento della repository");
                 }
 
-                const projects = await response.json();
+                const files = await response.json();
 
-                if (!Array.isArray(projects)) {
-                    throw new Error("Formato JSON non valido.");
-                }
+                const folders = files.filter(item =>
+                    item.type === "dir" &&
+                    !item.name.startsWith(".")
+                );
 
-                const validProjects = projects.filter(project => {
+                const results = await Promise.all(
+                    folders.map(async folder => {
+                        try {
+                            const res = await fetch(folder.url);
 
-                    return (
-                        project &&
-                        typeof project.title === "string" &&
-                        typeof project.url === "string" &&
-                        project.title.trim() !== "" &&
-                        project.url.trim() !== "" &&
-                        !project.url.startsWith("/") &&
-                        !project.url.includes("\\") &&
-                        !/^(?:[a-z]+:|\/\/)/i.test(project.url) &&
-                        !project.url.split("/").some(
-                            part => part === ".."
-                        )
-                    );
+                            if (!res.ok) return null;
 
-                });
+                            const contents = await res.json();
 
-                validProjects.sort((a, b) =>
-                    a.title.localeCompare(b.title, "it", {
-                        sensitivity: "base"
+                            const htmlFile = contents.find(file =>
+                                file.type === "file" &&
+                                file.name.toLowerCase() === "index.html"
+                            ) || contents.find(file =>
+                                file.type === "file" &&
+                                file.name.toLowerCase().endsWith(".html")
+                            );
+
+                            const url = htmlFile
+                                ? `./${encodeURIComponent(folder.name)}/${encodeURIComponent(htmlFile.name)}`
+                                : folder.html_url;
+
+                            return {
+                                name: folder.name,
+                                url: url
+                            };
+
+                        } catch {
+                            return null;
+                        }
                     })
                 );
 
-                fileList.replaceChildren();
+                allProjects = results
+                    .filter(Boolean)
+                    .sort((a, b) => a.name.localeCompare(b.name, "it"));
 
-                if (validProjects.length === 0) {
-
-                    fileList.appendChild(
-                        creaElemento(
-                            "p",
-                            "status",
-                            "Nessun progetto disponibile."
-                        )
-                    );
-
-                    return;
-                }
-
-                const fragment = document.createDocumentFragment();
-
-                validProjects.forEach(project => {
-                    fragment.appendChild(creaProgetto(project));
-                });
-
-                fileList.appendChild(fragment);
+                renderProjects(allProjects);
 
             } catch (error) {
+                console.error(error);
 
-                console.error(
-                    "Errore durante il caricamento:",
-                    error
-                );
+                container.innerHTML = `
+                    <div class="status">
+                        Impossibile caricare i progetti.<br><br>
+                        Controlla la connessione e riprova.
+                        <br><br>
+                        <button onclick="loadProjects()">
+                            Riprova
+                        </button>
+                    </div>
+                `;
 
-                mostraErrore();
-
+                counter.textContent = "Errore";
             }
-
         }
 
-        // Avvio automatico.
-        caricaProgetti();
+        search.addEventListener("input", () => {
+            const query = search.value.toLowerCase();
 
+            const filtered = allProjects.filter(project =>
+                project.name.toLowerCase().includes(query)
+            );
+
+            renderProjects(filtered);
+        });
+
+        loadProjects();
     </script>
 
 </body>
