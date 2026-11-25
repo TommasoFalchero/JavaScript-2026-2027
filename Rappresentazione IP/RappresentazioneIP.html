@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Calcolo indirizzo IP binario e rispettiva subnet mask</h2>
+
+Inserisci indirizzo IP:
+<input type="text" id="ip">
+
+<br><br>
+
+Prefix Length:
+<input type="number" id="pl">
+
+<br><br>
+
+<button onclick="calcola()">Calcola</button>
+
+<p>IP binario: <span id="bin"></span></p>
+<p>Subnet Mask: <span id="mask"></span></p>
+
+<script>
+function calcola() {
+
+    let ip = document.getElementById("ip").value;
+    let pl = Number(document.getElementById("pl").value);
+
+    let ottetti = ip.split(".");
+
+    if (ottetti.length != 4 || pl < 0 || pl > 32) {
+        alert("Hai inserito un indirizzo IP o Prefix Length non valido!");
+        return;
+    }
+
+    let bin = ottetti.map(n =>
+        Number(n).toString(2).padStart(8, "0")
+    ).join(".");
+
+    let mask = [];
+
+    for (let i = 0; i < 4; i++) {
+        let bit = Math.max(0, Math.min(8, pl - i * 8));
+
+        mask.push(bit == 0 ? 0 : 256 - 2 ** (8 - bit));
+    }
+
+    document.getElementById("bin").innerText = bin;
+    document.getElementById("mask").innerText = mask.join(".");
+
+}
+</script>
+
+</body>
+</html>
