@@ -3,145 +3,35 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I miei progetti JavaScript</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: white;
-            color: #222;
-            margin: 40px auto;
-            max-width: 900px;
-            padding: 0 20px;
-        }
-
-        header {
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: normal;
-        }
-
-        p {
-            color: #666;
-        }
-
-        h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        .project {
-            padding: 15px 5px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .project a {
-            color: #1769aa;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .project a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            margin-top: 50px;
-            padding-top: 15px;
-            border-top: 1px solid #ddd;
-            font-size: 13px;
-            color: #888;
-        }
-    </style>
+    <title>I miei progetti</title>
 </head>
-
 <body>
 
-    <header>
-        <h1>I miei progetti JavaScript</h1>
-        <p>Anno scolastico 2026/2027</p>
-    </header>
+    <h1>I miei progetti JavaScript 2026/2027</h1>
 
-    <main>
+    <hr>
 
-        <h2>Elenco dei progetti</h2>
+    <h2>Elenco progetti</h2>
 
-        <input
-            type="text"
-            id="search"
-            placeholder="Cerca un progetto..."
-        >
+    <ul>
+        <li><a href="./Anagrafica/">Anagrafica</a></li>
 
-        <div id="projects">
+        <li><a href="./Conversione%20da%20binaria%20a%20esadecimale/">
+            Conversione da binaria a esadecimale
+        </a></li>
 
-            <div class="project">
-                <a href="./Anagrafica/">Anagrafica</a>
-            </div>
+        <li><a href="./Esercitazione%20Binaria/">
+            Esercitazione Binaria
+        </a></li>
 
-            <div class="project">
-                <a href="./Conversione%20da%20binaria%20a%20esadecimale/">
-                    Conversione da binaria a esadecimale
-                </a>
-            </div>
+        <li><a href="./Nome%20e%20Cognome/">
+            Nome e Cognome
+        </a></li>
 
-            <div class="project">
-                <a href="./Esercitazione%20Binaria/">
-                    Esercitazione Binaria
-                </a>
-            </div>
-
-            <div class="project">
-                <a href="./Nome%20e%20Cognome/">
-                    Nome e Cognome
-                </a>
-            </div>
-
-            <div class="project">
-                <a href="./Rappresentazione%20IP/">
-                    Rappresentazione IP
-                </a>
-            </div>
-
-        </div>
-
-    </main>
-
-    <footer>
-        JavaScript 2026/2027
-    </footer>
-
-    <script>
-        const search = document.getElementById("search");
-        const projects = document.querySelectorAll(".project");
-
-        search.addEventListener("input", function() {
-            const value = this.value.toLowerCase();
-
-            projects.forEach(project => {
-                const name = project.textContent.toLowerCase();
-
-                project.style.display = name.includes(value)
-                    ? "block"
-                    : "none";
-            });
-        });
-    </script>
+        <li><a href="./Rappresentazione%20IP/">
+            Rappresentazione IP
+        </a></li>
+    </ul>
 
 </body>
 </html>
