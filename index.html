@@ -9,6 +9,8 @@
     <meta name="description"
           content="Raccolta di esercizi e progetti JavaScript 2026-2027.">
 
+    <meta name="theme-color" content="#f5f5f5">
+
     <title>JavaScript 2026–2027</title>
 
     <style>
@@ -38,6 +40,7 @@
         header h1 {
             margin: 0;
             font-size: 28px;
+            letter-spacing: -0.5px;
         }
 
         header p {
@@ -59,6 +62,7 @@
         }
 
         .intro {
+            margin-top: 0;
             margin-bottom: 22px;
             color: #666;
             font-size: 14px;
@@ -97,6 +101,7 @@
         .file strong {
             display: block;
             font-size: 15px;
+            font-weight: 600;
         }
 
         .file span {
@@ -108,14 +113,37 @@
 
         .arrow {
             flex-shrink: 0;
-            font-size: 25px;
+            margin: 0 !important;
             color: #999;
+            font-size: 25px !important;
+            transition: transform .2s, color .2s;
+        }
+
+        .file:hover .arrow {
+            color: #0969da;
+            transform: translateX(4px);
         }
 
         .status {
             color: #777;
             font-size: 14px;
             padding: 18px 0;
+        }
+
+        .retry {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 9px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .retry:hover {
+            background: #f6f8fa;
         }
 
         footer {
@@ -132,6 +160,14 @@
             font-weight: 600;
         }
 
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin: 8px 0 0;
+        }
+
         @media (max-width: 480px) {
             header {
                 padding: 28px 20px;
@@ -143,6 +179,14 @@
 
             main {
                 margin: 30px auto;
+            }
+
+            .file {
+                padding: 15px 8px;
+            }
+
+            .file strong {
+                font-size: 14px;
             }
         }
 
@@ -173,21 +217,24 @@
             Seleziona un progetto per aprirlo.
         </p>
 
-        <nav class="file-list"
-             id="fileList"
-             aria-label="Elenco dei progetti">
-
+        <nav
+            class="file-list"
+            id="fileList"
+            aria-label="Elenco dei progetti"
+            aria-live="polite"
+        >
             <p class="status">Caricamento dei progetti...</p>
-
         </nav>
 
     </main>
 
     <footer>
 
-        <a href="https://github.com/TommasoFalchero/JavaScript-2026-2027"
-           target="_blank"
-           rel="noopener noreferrer">
+        <a
+            href="https://github.com/TommasoFalchero/JavaScript-2026-2027"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
             Repository su GitHub ↗
         </a>
 
@@ -199,77 +246,182 @@
 
         const fileList = document.getElementById("fileList");
 
+        /**
+         * Crea un elemento HTML in sicurezza.
+         */
+        function creaElemento(tag, className, text) {
+
+            const element = document.createElement(tag);
+
+            if (className) {
+                element.className = className;
+            }
+
+            if (text !== undefined) {
+                element.textContent = text;
+            }
+
+            return element;
+        }
+
+        /**
+         * Mostra un messaggio di stato.
+         */
+        function mostraErrore() {
+
+            fileList.replaceChildren();
+
+            const message = creaElemento(
+                "p",
+                "status",
+                "Impossibile caricare i progetti."
+            );
+
+            const retry = creaElemento(
+                "button",
+                "retry",
+                "Riprova"
+            );
+
+            retry.type = "button";
+
+            retry.addEventListener("click", caricaProgetti);
+
+            fileList.append(message, retry);
+        }
+
+        /**
+         * Genera una voce per ciascun progetto.
+         */
+        function creaProgetto(project) {
+
+            const link = document.createElement("a");
+
+            link.className = "file";
+            link.href = project.url;
+
+            const content = document.createElement("div");
+
+            const title = creaElemento(
+                "strong",
+                "",
+                project.title
+            );
+
+            const description = creaElemento(
+                "span",
+                "",
+                "Progetto JavaScript"
+            );
+
+            const arrow = creaElemento(
+                "span",
+                "arrow",
+                "›"
+            );
+
+            arrow.setAttribute("aria-hidden", "true");
+
+            content.append(title, description);
+
+            link.append(content, arrow);
+
+            return link;
+        }
+
+        /**
+         * Carica automaticamente tutti i progetti.
+         */
         async function caricaProgetti() {
+
+            fileList.replaceChildren();
+
+            fileList.appendChild(
+                creaElemento(
+                    "p",
+                    "status",
+                    "Caricamento dei progetti..."
+                )
+            );
 
             try {
 
-                const response = await fetch("./files.json?t=" + Date.now());
+                const response = await fetch(
+                    "./files.json?t=" + Date.now(),
+                    { cache: "no-store" }
+                );
 
                 if (!response.ok) {
-                    throw new Error("Errore nel caricamento.");
+                    throw new Error("File files.json non trovato.");
                 }
 
                 const projects = await response.json();
 
-                fileList.replaceChildren();
-
-                if (projects.length === 0) {
-
-                    const message = document.createElement("p");
-                    message.className = "status";
-                    message.textContent = "Nessun progetto disponibile.";
-
-                    fileList.appendChild(message);
-                    return;
+                if (!Array.isArray(projects)) {
+                    throw new Error("Formato JSON non valido.");
                 }
 
-                projects.forEach(project => {
+                const validProjects = projects.filter(project => {
 
-                    const link = document.createElement("a");
-
-                    link.className = "file";
-                    link.href = project.url;
-
-                    const content = document.createElement("div");
-
-                    const title = document.createElement("strong");
-                    title.textContent = project.title;
-
-                    const description = document.createElement("span");
-                    description.textContent = "Progetto JavaScript";
-
-                    const arrow = document.createElement("span");
-                    arrow.className = "arrow";
-                    arrow.textContent = "›";
-                    arrow.setAttribute("aria-hidden", "true");
-
-                    content.appendChild(title);
-                    content.appendChild(description);
-
-                    link.appendChild(content);
-                    link.appendChild(arrow);
-
-                    fileList.appendChild(link);
+                    return (
+                        project &&
+                        typeof project.title === "string" &&
+                        typeof project.url === "string" &&
+                        project.title.trim() !== "" &&
+                        project.url.trim() !== "" &&
+                        !project.url.startsWith("/") &&
+                        !project.url.includes("\\") &&
+                        !/^(?:[a-z]+:|\/\/)/i.test(project.url) &&
+                        !project.url.split("/").some(
+                            part => part === ".."
+                        )
+                    );
 
                 });
 
-            } catch (error) {
+                validProjects.sort((a, b) =>
+                    a.title.localeCompare(b.title, "it", {
+                        sensitivity: "base"
+                    })
+                );
 
                 fileList.replaceChildren();
 
-                const message = document.createElement("p");
-                message.className = "status";
-                message.textContent =
-                    "Impossibile caricare i progetti. Riprova più tardi.";
+                if (validProjects.length === 0) {
 
-                fileList.appendChild(message);
+                    fileList.appendChild(
+                        creaElemento(
+                            "p",
+                            "status",
+                            "Nessun progetto disponibile."
+                        )
+                    );
 
-                console.error(error);
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+
+                validProjects.forEach(project => {
+                    fragment.appendChild(creaProgetto(project));
+                });
+
+                fileList.appendChild(fragment);
+
+            } catch (error) {
+
+                console.error(
+                    "Errore durante il caricamento:",
+                    error
+                );
+
+                mostraErrore();
 
             }
 
         }
 
+        // Avvio automatico.
         caricaProgetti();
 
     </script>
